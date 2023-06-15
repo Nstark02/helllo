@@ -1,28 +1,18 @@
-#!/usr/bin/python
+import logging
+from telegram.ext import Updater, MessageHandler, Filters
 
-# This is a simple echo bot using the decorator mechanism.
-# It echoes any incoming text messages.
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
-import telebot
+def echo(update, context):
+    context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
-API_TOKEN = '6039272282:AAGfmJVxNHSzs-QTB0JHfxix72R2gFUYN20'
+def main():
+    updater = Updater(token='6039272282:AAGfmJVxNHSzs-QTB0JHfxix72R2gFUYN20', use_context=True)
+    dispatcher = updater.dispatcher
+    echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
+    dispatcher.add_handler(echo_handler)
+    updater.start_polling()
+    updater.idle()
 
-bot = telebot.TeleBot(API_TOKEN)
-
-
-# Handle '/start' and '/help'
-@bot.message_handler(commands=['help', 'start'])
-def send_welcome(message):
-    bot.reply_to(message, """\
-Hi there, I am EchoBot.
-I am here to echo your kind words back to you. Just say anything nice and I'll say the exact same thing to you!\
-""")
-
-
-# Handle all other messages with content_type 'text' (content_types defaults to ['text'])
-@bot.message_handler(func=lambda message: True)
-def echo_message(message):
-    bot.reply_to(message, message.text)
-
-
-bot.infinity_polling()
+if __name__ == '__main__':
+    main()
