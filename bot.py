@@ -8,7 +8,7 @@ def echo(update, context):
 def main():
     """Main function to run the bot."""
     # Create the Telegram Bot updater and dispatcher
-    updater = Updater(token=os.environ.get('BOT_TOKEN'), use_context=True)
+    updater = Updater(token=os.environ.get('6039272282:AAGfmJVxNHSzs-QTB0JHfxix72R2gFUYN20'), use_context=True)
     dispatcher = updater.dispatcher
 
     # Create an echo handler and register it with the dispatcher
