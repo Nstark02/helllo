@@ -1,17 +1,21 @@
-import logging
-from telegram.ext import Updater, MessageHandler 
-import filters
-
-logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
+import os
+from telegram.ext import Updater, MessageHandler, Filters
 
 def echo(update, context):
+    """Echoes the received message back to the user."""
     context.bot.send_message(chat_id=update.effective_chat.id, text=update.message.text)
 
 def main():
-    updater = Updater(token='6039272282:AAGfmJVxNHSzs-QTB0JHfxix72R2gFUYN20', use_context=True)
+    """Main function to run the bot."""
+    # Create the Telegram Bot updater and dispatcher
+    updater = Updater(token=os.environ.get('BOT_TOKEN'), use_context=True)
     dispatcher = updater.dispatcher
+
+    # Create an echo handler and register it with the dispatcher
     echo_handler = MessageHandler(Filters.text & (~Filters.command), echo)
     dispatcher.add_handler(echo_handler)
+
+    # Start the bot
     updater.start_polling()
     updater.idle()
 
