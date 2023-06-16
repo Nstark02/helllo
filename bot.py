@@ -1,5 +1,5 @@
 import os
-from telegram.ext import Updater, MessageHandler, Filters
+from telegram.ext import Updater, MessageHandler, filters
 
 def echo(update, context):
     """Echoes the received message back to the user."""
